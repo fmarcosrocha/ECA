@@ -1,0 +1,21 @@
+package com.sample
+
+import com.sample.Processo;
+
+rule "verificar_nulo"
+
+    when
+        $p : Processo(requerente.cpf_cnpj == 1470) 
+    then
+        System.out.println("passei!");
+
+end
+
+rule "Your Second Rule"
+    //include attributes such as "salience" here...
+    when
+        //conditions
+    then
+        //actions
+
+end
