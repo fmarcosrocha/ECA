@@ -5,7 +5,7 @@ public class Terreno {
 	
 	boolean deEsquina;
 	double metragem;
-	Imovel contrucao;
+	Imovel construcao;
 	
 	public Terreno(){}
 	
@@ -29,10 +29,10 @@ public class Terreno {
 	public void setMetragem(double metragem) {
 		this.metragem = metragem;
 	}
-	public Imovel getContrucao() {
-		return contrucao;
+	public Imovel getConstrucao() {
+		return construcao;
 	}
-	public void setContrucao(Imovel contrucao) {
-		this.contrucao = contrucao;
+	public void setConstrucao(Imovel contrucao) {
+		this.construcao = contrucao;
 	}
 }

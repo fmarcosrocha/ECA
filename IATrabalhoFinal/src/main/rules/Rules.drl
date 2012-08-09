@@ -1,21 +1,43 @@
 package com.sample
 
 import com.sample.Processo;
+import com.sample.TipoImovel;
 
 rule "verificar_nulo"
 
     when
-        $p : Processo(requerente.cpf_cnpj == 1470) 
+        $p : Processo(requerente.cpf_cnpj == 140) 
     then
         System.out.println("passei!");
 
 end
 
-rule "Your Second Rule"
-    //include attributes such as "salience" here...
-    when
-        //conditions
-    then
-        //actions
+rule "Alvara de construção OK"
 
+    when
+    
+    //casa de meio de rua
+		$p:Processo(requerente.cndOk ==true,terreno.deEsquina == false,terreno.construcao.tipoImovel == com.sample.TipoImovel.RESIDENCIAL,
+					terreno.construcao.afastamentoLateralDireito>=1.50,terreno.construcao.afastamentoLateralEsquerdo>=1.50,
+					terreno.construcao.afastamentoFrente>=3.00,terreno.construcao.afastamentoFundo>=2.00,
+					terreno.construcao.art.pago==true)||
+					
+    //casa de esquina lado direito
+		$p:Processo(requerente.cndOk ==true,terreno.deEsquina == true, 
+					terreno.construcao.tipoImovel == com.sample.TipoImovel.RESIDENCIAL,
+					terreno.construcao.ladoDireitoParaRua == true,terreno.construcao.afastamentoLateralDireito>=3.00,
+					terreno.construcao.afastamentoLateralEsquerdo>=1.50,terreno.construcao.afastamentoFrente>=3.00,
+					terreno.construcao.afastamentoFundo>=2.00,terreno.construcao.art.pago==true)||
+					
+	//casa de esquina lado esquerdo
+		$p:Processo(requerente.cndOk ==true,terreno.deEsquina == true, 
+					terreno.construcao.tipoImovel == com.sample.TipoImovel.RESIDENCIAL,
+					terreno.construcao.ladoDireitoParaRua == false,terreno.construcao.afastamentoLateralDireito>=1.50,
+					terreno.construcao.afastamentoLateralEsquerdo>=3.00,terreno.construcao.afastamentoFrente>=3.00,
+					terreno.construcao.afastamentoFundo>=2.00,terreno.construcao.art.pago==true)
+					
+    then
+ 		$p.setSituacao(com.sample.SituacaoProcesso.DEFERIDO);
+		 		
+ 		        System.out.println($p.getSituacao());
 end

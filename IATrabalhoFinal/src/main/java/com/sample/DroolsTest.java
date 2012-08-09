@@ -30,13 +30,13 @@ public class DroolsTest {
     		
     		AlvaraDeConstrucao alvaraC = new AlvaraDeConstrucao();
     		
-    		Imovel imovel = new Imovel(867,false,TipoImovel.RESIDENCIAL,70.00,2.50,5.00,5.00,10.00);
+    		Imovel imovel = new Imovel(867,true,false,TipoImovel.RESIDENCIAL,70.00,3.50,2.00,10.00,5.00,true);
     		imovel.setLaudo(laudo);
     		imovel.setArt(art);
     		imovel.setAlvara(alvaraC);
     		
-    		Terreno terreno = new Terreno(false,500.00);
-    		terreno.setContrucao(imovel);
+    		Terreno terreno = new Terreno(true,500.00);
+    		terreno.setConstrucao(imovel);
     		
     		Processo processo = new Processo(123);
     		processo.setRequerente(requerente);

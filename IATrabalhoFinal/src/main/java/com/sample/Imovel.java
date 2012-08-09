@@ -5,13 +5,16 @@ public class Imovel {
 	
 	int numero;
 	boolean totalmenteConstruida;
+	boolean iniciada;
 	TipoImovel tipoImovel;
 	
 	double metragemConstrucao;
 	double afastamentoLateralEsquerdo;
 	double afastamentoLateralDireito;
-	double afastamentoLateralFrente;
-	double afastamentoLateralFundo;
+	double afastamentoFrente;
+	double afastamentoFundo;
+	
+	boolean ladoDireitoParaRua;
 	
 	Art art;
 	Laudo laudo;
@@ -24,19 +27,27 @@ public class Imovel {
 	/*
 	 * construtor do processo sem art, laudo,alvara,certidao,alavara de funcionamento e habitese
 	 * */
-	public Imovel(int i, boolean b, TipoImovel t, double d, double e, double f, double g, double h){
+	public Imovel(int i,boolean inic, boolean totalC, TipoImovel t, double metragem, double d, double e, double fr, double fu, boolean ladoD){
+		this.iniciada = inic;
+		this.totalmenteConstruida = totalC;
+		this.ladoDireitoParaRua=ladoD;
 		this.numero=i;
 		this.tipoImovel = t;
-		this.metragemConstrucao = d;
-		this.afastamentoLateralDireito = f;
+		this.metragemConstrucao = metragem;
+		this.afastamentoLateralDireito = d;
 		this.afastamentoLateralEsquerdo = e;
-		this.afastamentoLateralFundo = h;
-		this.afastamentoLateralFrente = g;
+		this.afastamentoFundo = fu;
+		this.afastamentoFrente = fr;
 	}
-		
 	
 	public Imovel(){}
 	
+	public boolean isLadoDireitoParaRua() {
+		return ladoDireitoParaRua;
+	}
+	public void setLadoDireitoParaRua(boolean ladoDireitoParaRua) {
+		this.ladoDireitoParaRua = ladoDireitoParaRua;
+	}
 	public Art getArt() {
 		return art;
 	}
@@ -85,17 +96,17 @@ public class Imovel {
 	public void setAfastamentoLateralDireito(double afastamentoLateralDireito) {
 		this.afastamentoLateralDireito = afastamentoLateralDireito;
 	}
-	public double getAfastamentoLateralFrente() {
-		return afastamentoLateralFrente;
+	public double getAfastamentoFrente() {
+		return afastamentoFrente;
 	}
-	public void setAfastamentoLateralFrente(double afastamentoLateralFrente) {
-		this.afastamentoLateralFrente = afastamentoLateralFrente;
+	public void setAfastamentoFrente(double afastamentoFrente) {
+		this.afastamentoFrente = afastamentoFrente;
 	}
-	public double getAfastamentoLateralFundo() {
-		return afastamentoLateralFundo;
+	public double getAfastamentoFundo() {
+		return afastamentoFundo;
 	}
-	public void setAfastamentoLateralFundo(double afastamentoLateralFundo) {
-		this.afastamentoLateralFundo = afastamentoLateralFundo;
+	public void setAfastamentoFundo(double afastamentoFundo) {
+		this.afastamentoFundo = afastamentoFundo;
 	}
 	public AlvaraDeConstrucao getAlvara() {
 		return alvara;
