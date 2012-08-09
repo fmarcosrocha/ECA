@@ -18,19 +18,19 @@ public class Terreno {
 	}
 	
 	public boolean isDeEsquina() {
-		return deEsquina;
+		return this.deEsquina;
 	}
 	public void setDeEsquina(boolean deEsquina) {
 		this.deEsquina = deEsquina;
 	}
 	public double getMetragem() {
-		return metragem;
+		return this.metragem;
 	}
 	public void setMetragem(double metragem) {
 		this.metragem = metragem;
 	}
 	public Imovel getConstrucao() {
-		return construcao;
+		return this.construcao;
 	}
 	public void setConstrucao(Imovel contrucao) {
 		this.construcao = contrucao;

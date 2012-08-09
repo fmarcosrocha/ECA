@@ -19,18 +19,17 @@ import org.drools.runtime.StatefulKnowledgeSession;
 public class DroolsTest {
 
     public static final void main(String[] args) {
-        try {
-//            // load up the knowledge base
-        	
-    		Pessoa requerente = new Pessoa("FM construtora",1470,true);
+        try {        	
+    		Pessoa requerente = new Pessoa("FM construtora",1470,false);
     		
     		Art art = new Art(321,true);
     		
     		Laudo laudo = new Laudo(321,true);
     		
     		AlvaraDeConstrucao alvaraC = new AlvaraDeConstrucao();
+    		alvaraC.setEmitida(false);
     		
-    		Imovel imovel = new Imovel(867,true,false,TipoImovel.RESIDENCIAL,70.00,3.50,2.00,10.00,5.00,true);
+    		Imovel imovel = new Imovel(867,true,false,TipoImovel.RESIDENCIAL,70.00,3.0,2.00,10.00,5.00,true);
     		imovel.setLaudo(laudo);
     		imovel.setArt(art);
     		imovel.setAlvara(alvaraC);
@@ -45,10 +44,6 @@ public class DroolsTest {
     		KnowledgeBase kbase = readKnowledgeBase();
     		StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
     		KnowledgeRuntimeLogger logger = KnowledgeRuntimeLoggerFactory.newFileLogger(ksession, "test");
-//            // go !
-//            Message message = new Message();
-//            message.setMessage("Hello World");
-//            message.setStatus(Message.HELLO);
     		ksession.insert(processo);
     		ksession.fireAllRules();
     		logger.close();
@@ -72,32 +67,5 @@ public class DroolsTest {
         kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());
         return kbase;
     }
-
-//    public static class Message {
-//
-//        public static final int HELLO = 0;
-//        public static final int GOODBYE = 1;
-//
-//        private String message;
-//
-//        private int status;
-//
-//        public String getMessage() {
-//            return this.message;
-//        }
-//
-//        public void setMessage(String message) {
-//            this.message = message;
-//        }
-//
-//        public int getStatus() {
-//            return this.status;
-//        }
-//
-//        public void setStatus(int status) {
-//            this.status = status;
-//        }
-//
-//    }
-
+    
 }

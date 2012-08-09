@@ -36,10 +36,10 @@ public class Processo {
 	public void setSituacao(SituacaoProcesso situacao) {
 		this.situacao = situacao;
 	}
-	public String getJustficativa() {
+	public String getJustificativa() {
 		return justificativa;
 	}
-	public void setJustficativa(String justficativa) {
-		this.justificativa = justficativa;
+	public void setJustificativa(String justificativa) {
+		this.justificativa = justificativa;
 	}
 }

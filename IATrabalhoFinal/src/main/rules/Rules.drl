@@ -3,41 +3,84 @@ package com.sample
 import com.sample.Processo;
 import com.sample.TipoImovel;
 
-rule "verificar_nulo"
 
-    when
-        $p : Processo(requerente.cpf_cnpj == 140) 
-    then
-        System.out.println("passei!");
+//funções utilitárias
+function double calculaDAMAlvara(double mC){
+	return mC*2.13*0.25;
+}
+function double calculaDAMHabitese(double mC){
+	return mC*2.13*0.10;
+}
+function double calculaDAMAlvaraFuncionamento(double mC){
+	double valor=-1;
+	if(mC<=50.0){
+		valor = 10*2.13;
+	}
+	if(mC>50.0 && mC<=100){
+		valor = 15*2.13;
+	}
+	if(mC>100.0 && mC<=150){
+		valor = 30*2.13;
+	}
+	if(mC>150.0 && mC<=200){
+		valor = 35*2.13;
+	}
+	if(mC>200.0 && mC<=300){
+		valor = 40*2.13;
+	}
+	if(mC>300.0 && mC<=400){
+		valor = 45*2.13;
+	}
+	if(mC>400.0){
+		valor = 50*2.13;
+	}
+	return valor;
+}
 
+rule "requerente com débito na prefeitura"
+	when
+		$p:Processo(requerente.cndOk == false)
+	
+	then
+		$p.setSituacao(com.sample.SituacaoProcesso.INDEFERIDO);
+		$p.setJustificativa("Requerente em débito com a prefeitura");
+		System.out.println("Situaçao do processo de número "+$p.getNumeroProcesso()+": "+$p.getSituacao());
+		System.out.println("Justificativa: "+$p.getJustificativa());
+	
 end
 
 rule "Alvara de construção OK"
-
     when
     
     //casa de meio de rua
 		$p:Processo(requerente.cndOk ==true,terreno.deEsquina == false,terreno.construcao.tipoImovel == com.sample.TipoImovel.RESIDENCIAL,
 					terreno.construcao.afastamentoLateralDireito>=1.50,terreno.construcao.afastamentoLateralEsquerdo>=1.50,
 					terreno.construcao.afastamentoFrente>=3.00,terreno.construcao.afastamentoFundo>=2.00,
-					terreno.construcao.art.pago==true)||
+					terreno.construcao.art.pago==true,terreno.construcao.alvara.emitido==false)||
 					
     //casa de esquina lado direito
 		$p:Processo(requerente.cndOk ==true,terreno.deEsquina == true, 
 					terreno.construcao.tipoImovel == com.sample.TipoImovel.RESIDENCIAL,
 					terreno.construcao.ladoDireitoParaRua == true,terreno.construcao.afastamentoLateralDireito>=3.00,
 					terreno.construcao.afastamentoLateralEsquerdo>=1.50,terreno.construcao.afastamentoFrente>=3.00,
-					terreno.construcao.afastamentoFundo>=2.00,terreno.construcao.art.pago==true)||
+					terreno.construcao.afastamentoFundo>=2.00,terreno.construcao.art.pago==true,terreno.construcao.alvara.emitido==false)||
 					
 	//casa de esquina lado esquerdo
 		$p:Processo(requerente.cndOk ==true,terreno.deEsquina == true, 
 					terreno.construcao.tipoImovel == com.sample.TipoImovel.RESIDENCIAL,
 					terreno.construcao.ladoDireitoParaRua == false,terreno.construcao.afastamentoLateralDireito>=1.50,
 					terreno.construcao.afastamentoLateralEsquerdo>=3.00,terreno.construcao.afastamentoFrente>=3.00,
-					terreno.construcao.afastamentoFundo>=2.00,terreno.construcao.art.pago==true)
+					terreno.construcao.afastamentoFundo>=2.00,terreno.construcao.art.pago==true,terreno.construcao.alvara.emitido==false)
 					
     then
+    	//deferi processo
  		$p.setSituacao(com.sample.SituacaoProcesso.DEFERIDO);
-		 		
- 		        System.out.println($p.getSituacao());
+ 		
+ 		//adicona o valor da DAM para emissão de alvará de construção a ser paga
+ 		$p.getTerreno().getConstrucao().getAlvara().setValorDAM(calculaDAMAlvara($p.getTerreno().getConstrucao()
+ 																					.getMetragemConstrucao()));
+ 		
+ 		        System.out.println("Situaçao do processo de número "+$p.getNumeroProcesso()+"(Alvará de construção)"+": "+$p.getSituacao());
+ 		        System.out.println("Valor da DAM a ser paga: "+$p.getTerreno().getConstrucao().getAlvara().getValorDAM());
 end
+

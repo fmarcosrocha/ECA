@@ -43,91 +43,91 @@ public class Imovel {
 	public Imovel(){}
 	
 	public boolean isLadoDireitoParaRua() {
-		return ladoDireitoParaRua;
+		return this.ladoDireitoParaRua;
 	}
 	public void setLadoDireitoParaRua(boolean ladoDireitoParaRua) {
 		this.ladoDireitoParaRua = ladoDireitoParaRua;
 	}
 	public Art getArt() {
-		return art;
+		return this.art;
 	}
 	public void setArt(Art art) {
 		this.art = art;
 	}
 	public Laudo getLaudo() {
-		return laudo;
+		return this.laudo;
 	}
 	public void setLaudo(Laudo laudo) {
 		this.laudo = laudo;
 	}
 	public int getNumero() {
-		return numero;
+		return this.numero;
 	}
 	public void setNumero(int numero) {
 		this.numero = numero;
 	}
 	public boolean isTotalmenteConstruida() {
-		return totalmenteConstruida;
+		return this.totalmenteConstruida;
 	}
 	public void setTotalmenteConstruida(boolean totalmenteConstruida) {
 		this.totalmenteConstruida = totalmenteConstruida;
 	}
 	public TipoImovel getTipoImovel() {
-		return tipoImovel;
+		return this.tipoImovel;
 	}
 	public void setTipoImovel(TipoImovel tipoImovel) {
 		this.tipoImovel = tipoImovel;
 	}
 	public double getMetragemConstrucao() {
-		return metragemConstrucao;
+		return this.metragemConstrucao;
 	}
 	public void setMetragemConstrucao(double metragemConstrucao) {
 		this.metragemConstrucao = metragemConstrucao;
 	}
 	public double getAfastamentoLateralEsquerdo() {
-		return afastamentoLateralEsquerdo;
+		return this.afastamentoLateralEsquerdo;
 	}
 	public void setAfastamentoLateralEsquerdo(double afastamentoLateralEsquerdo) {
 		this.afastamentoLateralEsquerdo = afastamentoLateralEsquerdo;
 	}
 	public double getAfastamentoLateralDireito() {
-		return afastamentoLateralDireito;
+		return this.afastamentoLateralDireito;
 	}
 	public void setAfastamentoLateralDireito(double afastamentoLateralDireito) {
 		this.afastamentoLateralDireito = afastamentoLateralDireito;
 	}
 	public double getAfastamentoFrente() {
-		return afastamentoFrente;
+		return this.afastamentoFrente;
 	}
 	public void setAfastamentoFrente(double afastamentoFrente) {
 		this.afastamentoFrente = afastamentoFrente;
 	}
 	public double getAfastamentoFundo() {
-		return afastamentoFundo;
+		return this.afastamentoFundo;
 	}
 	public void setAfastamentoFundo(double afastamentoFundo) {
 		this.afastamentoFundo = afastamentoFundo;
 	}
 	public AlvaraDeConstrucao getAlvara() {
-		return alvara;
+		return this.alvara;
 	}
 	public void setAlvara(AlvaraDeConstrucao alvara) {
 		this.alvara = alvara;
 	}
 	public AlvaraDeFuncionamento getAlvaraFunc() {
-		return alvaraFunc;
+		return this.alvaraFunc;
 	}
 	public void setAlvaraFunc(AlvaraDeFuncionamento alvaraFunc) {
 		this.alvaraFunc = alvaraFunc;
 	}
 	public CertidaoDeEdificacao getCertidao() {
-		return certidao;
+		return this.certidao;
 	}
 	public void setCertidao(CertidaoDeEdificacao certidao) {
 		this.certidao = certidao;
 	}
 	public Habitese getHabitese() {
-		return habitese;
+		return this.habitese;
 	}
 	public void setHabitese(Habitese habitese) {
 		this.habitese = habitese;
