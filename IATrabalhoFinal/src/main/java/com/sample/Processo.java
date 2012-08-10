@@ -6,11 +6,21 @@ public class Processo {
 	Terreno terreno;
 	SituacaoProcesso situacao;
 	String justificativa;
+	double multa;
 	
 	public Processo(int i){
 		this.numeroProcesso = i;
 		this.situacao = SituacaoProcesso.EM_ANDAMENTO;
 	}
+	
+	public double getMulta() {
+		return multa;
+	}
+
+	public void setMulta(double multa) {
+		this.multa = multa;
+	}
+
 	
 	public int getNumeroProcesso() {
 		return numeroProcesso;

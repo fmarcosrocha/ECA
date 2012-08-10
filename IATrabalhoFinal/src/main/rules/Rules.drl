@@ -36,6 +36,10 @@ function double calculaDAMAlvaraFuncionamento(double mC){
 	}
 	return valor;
 }
+function double calculaAutoDeInfracao(double mC){
+
+return mC;
+}
 
 rule "requerente com débito na prefeitura"
 	when
@@ -48,6 +52,18 @@ rule "requerente com débito na prefeitura"
 		System.out.println("Justificativa: "+$p.getJustificativa());
 	
 end
+
+rule "afastamento irregular"
+	when
+		$p:Processo(terreno.construcao.afastamentoFrente<=3.00||terreno.construcao.afastamentoFundo<=2.00||
+		(terreno.construcao.afastamentoLateralEsquerdo<3.00 && terreno.construcao.ladoDireitoParaRua == false && terreno.deEsquina == true)||
+		(terreno.construcao.afastamentoLateralDireito<3.00 && terreno.construcao.ladoDireitoParaRua == true && terreno.deEsquina == true)||
+		(terreno.construcao.afastamentoLateralDireito<1.50)||(terreno.construcao.afastamentoLateralEsquerdo<1.50))
+	then
+		$p.setSituacao(com.sample.SituacaoProcesso.INDEFERIDO);
+		$p.setJustificativa("Afastamento da construção irregular");
+end
+
 
 rule "Alvara de construção OK"
     when
@@ -76,11 +92,19 @@ rule "Alvara de construção OK"
     	//deferi processo
  		$p.setSituacao(com.sample.SituacaoProcesso.DEFERIDO);
  		
+ 		//emitir DAM
+ 		$p.getTerreno().getConstrucao().getAlvara().setEmitido(true);
+ 		
  		//adicona o valor da DAM para emissão de alvará de construção a ser paga
  		$p.getTerreno().getConstrucao().getAlvara().setValorDAM(calculaDAMAlvara($p.getTerreno().getConstrucao()
  																					.getMetragemConstrucao()));
+ 																					
+ 		if($p.getTerreno().getConstrucao().isIniciada() == true){
+ 			$p.setMulta(calculaAutoDeInfracao(10));
+ 			System.out.println("devido a iniciação da obra ter acontecido sem Alvará, o requerente deverá pagar uma multa no valor de R$"+$p.getMulta()+" juntamente com a DAM.");
+ 		}
  		
- 		        System.out.println("Situaçao do processo de número "+$p.getNumeroProcesso()+"(Alvará de construção)"+": "+$p.getSituacao());
- 		        System.out.println("Valor da DAM a ser paga: "+$p.getTerreno().getConstrucao().getAlvara().getValorDAM());
+ 		System.out.println("Situaçao do processo de número "+$p.getNumeroProcesso()+"(Alvará de construção)"+": "+$p.getSituacao());
+ 		System.out.println("Valor da DAM a ser paga: "+$p.getTerreno().getConstrucao().getAlvara().getValorDAM());
 end
 

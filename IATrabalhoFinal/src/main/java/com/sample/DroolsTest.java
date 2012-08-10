@@ -20,21 +20,21 @@ public class DroolsTest {
 
     public static final void main(String[] args) {
         try {        	
-    		Pessoa requerente = new Pessoa("FM construtora",1470,false);
+    		Pessoa requerente = new Pessoa("FM construtora",1470,true);
     		
     		Art art = new Art(321,true);
     		
     		Laudo laudo = new Laudo(321,true);
     		
     		AlvaraDeConstrucao alvaraC = new AlvaraDeConstrucao();
-    		alvaraC.setEmitida(false);
+    		alvaraC.setEmitido(false);
     		
-    		Imovel imovel = new Imovel(867,true,false,TipoImovel.RESIDENCIAL,70.00,3.0,2.00,10.00,5.00,true);
+    		Imovel imovel = new Imovel(867,false,false,TipoImovel.RESIDENCIAL,70.00,3.0,2.00,10.00,5.00,false);
     		imovel.setLaudo(laudo);
     		imovel.setArt(art);
     		imovel.setAlvara(alvaraC);
     		
-    		Terreno terreno = new Terreno(true,500.00);
+    		Terreno terreno = new Terreno(false,500.00);
     		terreno.setConstrucao(imovel);
     		
     		Processo processo = new Processo(123);

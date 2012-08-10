@@ -42,6 +42,12 @@ public class Imovel {
 	
 	public Imovel(){}
 	
+	public boolean isIniciada() {
+		return this.iniciada;
+	}
+	public void setIniciada(boolean iniciada) {
+		this.iniciada = iniciada;
+	}
 	public boolean isLadoDireitoParaRua() {
 		return this.ladoDireitoParaRua;
 	}

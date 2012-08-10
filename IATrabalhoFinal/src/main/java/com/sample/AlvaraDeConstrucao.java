@@ -13,7 +13,7 @@ public class AlvaraDeConstrucao{
 	public boolean isEmitido() {
 		return this.emitido;
 	}
-	public void setEmitida(boolean emitido) {
+	public void setEmitido(boolean emitido) {
 		this.emitido = emitido;
 	}
 }
