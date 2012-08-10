@@ -47,7 +47,7 @@ public class DroolsTest {
     	
     		//PROCESSO 2
     		Laudo laudo2 = new Laudo(321,true);
-    		Pessoa requerente2 = new Pessoa("FM construtora",1470,true);
+    		Pessoa requerente2 = new Pessoa("FM construtora",1470,false);
     		
     		AlvaraDeConstrucao alvaraC2 = new AlvaraDeConstrucao();
     		alvaraC2.setEmitido(true);

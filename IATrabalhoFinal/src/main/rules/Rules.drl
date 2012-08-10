@@ -131,3 +131,14 @@ rule "certidao de edificacao OK"
 	
 end
 
+rule "laudo irregular"
+	when
+	$p:Processo(terreno.construcao.laudo.conferiEndereco == false)
+	then
+	$p.setSituacao(com.sample.SituacaoProcesso.INDEFERIDO);
+	$p.setJustificativa("Laudo técnico irregular ou incompatível");
+	System.out.println("Situaçao do processo de número "+$p.getNumeroProcesso()+": "+$p.getSituacao());
+	System.out.println("Justificativa: "+$p.getJustificativa());
+	
+end
+
