@@ -49,8 +49,7 @@ rule "requerente com débito na prefeitura"
 		$p.setSituacao(com.sample.SituacaoProcesso.INDEFERIDO);
 		$p.setJustificativa("Requerente em débito com a prefeitura");
 		System.out.println("Situaçao do processo de número "+$p.getNumeroProcesso()+": "+$p.getSituacao());
-		System.out.println("Justificativa: "+$p.getJustificativa());
-	
+		System.out.println("Justificativa: "+$p.getJustificativa());	
 end
 
 rule "afastamento irregular"
@@ -105,7 +104,7 @@ rule "Alvara de construção OK"
  		//emitir DAM
  		$p.getTerreno().getConstrucao().getAlvara().setEmitido(true);
  		
- 		//adicona o valor da DAM para emissão de alvará de construção a ser paga
+ 		//adiciona o valor da DAM para emissão de alvará de construção a ser paga
  		$p.getTerreno().getConstrucao().getAlvara().setValorDAM(calculaDAMAlvara($p.getTerreno().getConstrucao()
  																					.getMetragemConstrucao()));
  																					
@@ -114,10 +113,21 @@ rule "Alvara de construção OK"
  		System.out.println("Valor da DAM a ser paga: "+$p.getTerreno().getConstrucao().getAlvara().getValorDAM());
 end
 
-/*rule "certidao de edificacao OK"
+rule "certidao de edificacao OK"
 	when
-	$p:Processo(terreno.construcao.alvara.emitido == true, terreno.construcao.totalmenteConstruida == true,terreno.construcao.laudo.conferiEndereco == true)
+	$p:Processo(terreno.construcao.alvara.emitido == true,terreno.construcao.certidao.emitida == false, terreno.construcao.totalmenteConstruida == true,terreno.construcao.laudo.conferiEndereco == true)
 	then
-	System.out.println("entrei");
+	//deferi processo de certidao
+	$p.setSituacao(com.sample.SituacaoProcesso.DEFERIDO);
+	
+	//emitir DAM
+ 	$p.getTerreno().getConstrucao().getCertidao().setEmitido(true);
+ 	
+ 	//adiciona o valor da DAM para emissão de alvará de construção a ser paga
+ 	$p.getTerreno().getConstrucao().getCertidao().setValorDAM(26.30);
+ 	
+ 	System.out.println("Situaçao do processo de número "+$p.getNumeroProcesso()+"(Certidão de edificação)"+": "+$p.getSituacao());
+ 	System.out.println("Valor da DAM a ser paga: "+$p.getTerreno().getConstrucao().getCertidao().getValorDAM());
+	
 end
-*/
+

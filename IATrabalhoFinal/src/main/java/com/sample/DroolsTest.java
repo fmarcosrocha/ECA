@@ -36,11 +36,14 @@ public class DroolsTest {
     		processo.setRequerente(requerente);
     		processo.setTerreno(terreno);
     		
-    		KnowledgeBase kbase = readKnowledgeBase();
-    		StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
+    		
+    		StatefulKnowledgeSession ksession = getKnowledgeSession();
     		ksession.insert(processo);
     		ksession.fireAllRules();
     		ksession.dispose();
+    		
+    		ksession.dispose();
+    		System.out.println("----");
     	
     		//PROCESSO 2
     		Laudo laudo2 = new Laudo(321,true);
@@ -49,10 +52,14 @@ public class DroolsTest {
     		AlvaraDeConstrucao alvaraC2 = new AlvaraDeConstrucao();
     		alvaraC2.setEmitido(true);
     		
+    		CertidaoDeEdificacao certidaoC2 = new CertidaoDeEdificacao();
+    		certidaoC2.setEmitido(false);
+    		
     		Imovel imovel2 = new Imovel(867,true,true,TipoImovel.RESIDENCIAL,70.00,2.0,2.00,10.00,5.00,false);
     	
-    		imovel.setAlvara(alvaraC2);
-    		imovel.setLaudo(laudo2);
+    		imovel2.setAlvara(alvaraC2);
+    		imovel2.setLaudo(laudo2);
+    		imovel2.setCertidao(certidaoC2);
     		
     		Terreno terreno2 = new Terreno(true,500.00);
     		terreno2.setConstrucao(imovel2);
@@ -61,27 +68,45 @@ public class DroolsTest {
     		processo2.setRequerente(requerente2);
     		processo2.setTerreno(terreno2);
     		
-    		KnowledgeBase kbase2 = readKnowledgeBase();
-    		StatefulKnowledgeSession ksession2 = kbase2.newStatefulKnowledgeSession();
+    		StatefulKnowledgeSession ksession2 = getKnowledgeSession();
     		ksession2.insert(processo2);
     		ksession2.fireAllRules();
     		ksession2.dispose();
     }
 
-    private static KnowledgeBase readKnowledgeBase() throws Exception {
-        KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
-        kbuilder.add(ResourceFactory.newClassPathResource("Rules.drl"), ResourceType.DRL);
-        KnowledgeBuilderErrors errors = kbuilder.getErrors();
-        if (errors.size() > 0) {
-            for (KnowledgeBuilderError error: errors) {
-            	System.out.println("errei");
-                System.err.println(error);
-            }
-            throw new IllegalArgumentException("Could not parse knowledge.");
-        }
-        KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
-        kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());
-        return kbase;
-    }
+//    private static KnowledgeBase readKnowledgeBase() throws Exception {
+//        KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+//        kbuilder.add(ResourceFactory.newClassPathResource("Rules.drl"), ResourceType.DRL);
+//        KnowledgeBuilderErrors errors = kbuilder.getErrors();
+//        if (errors.size() > 0) {
+//            for (KnowledgeBuilderError error: errors) {
+//            	System.out.println("errei");
+//                System.err.println(error);
+//            }
+//            throw new IllegalArgumentException("Could not parse knowledge.");
+//        }
+//        KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
+//        kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());
+//        return kbase;
+//    }
+    
+    private static StatefulKnowledgeSession getKnowledgeSession() throws Exception {
+		KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+		kbuilder.add(ResourceFactory.newClassPathResource("Rules.drl"), ResourceType.DRL);
+		KnowledgeBuilderErrors errors = kbuilder.getErrors();
+		if (errors.size() > 0) {
+			for (KnowledgeBuilderError error: errors) {
+				System.err.println(error);
+			}
+			throw new IllegalArgumentException("Could not parse knowledge.");
+		}
+		KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
+		kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());
+		
+		StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
+		
+		return ksession;
+	}
+
     
 }
