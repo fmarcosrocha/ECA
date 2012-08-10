@@ -1,20 +1,19 @@
 package com.sample;
 
-import java.math.BigDecimal;
 
 public class Habitese{
-	BigDecimal valorDAM;
-	boolean emitida;
-	public BigDecimal getValorDAM() {
-		return valorDAM;
+	double valorDAM;
+	boolean emitido;
+	public double getValorDAM() {
+		return this.valorDAM;
 	}
-	public void setValorDAM(BigDecimal valorDAM) {
+	public void setValorDAM(double valorDAM) {
 		this.valorDAM = valorDAM;
 	}
-	public boolean isEmitida() {
-		return emitida;
+	public boolean isEmitido() {
+		return this.emitido;
 	}
-	public void setEmitida(boolean emitida) {
-		this.emitida = emitida;
+	public void setEmitido(boolean emitida) {
+		this.emitido = emitida;
 	}
 }

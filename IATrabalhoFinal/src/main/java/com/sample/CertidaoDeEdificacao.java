@@ -10,7 +10,7 @@ public class CertidaoDeEdificacao{
 	public void setValorDAM(double valorDAM) {
 		this.valorDAM = valorDAM;
 	}
-	public boolean isEmitida() {
+	public boolean isEmitido() {
 		return this.emitido;
 	}
 	public void setEmitido(boolean emitido) {

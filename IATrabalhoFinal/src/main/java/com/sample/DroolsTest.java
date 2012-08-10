@@ -21,6 +21,7 @@ public class DroolsTest {
     		Pessoa requerente = new Pessoa("FM construtora",1470,true);
     		
     		Art art = new Art(321,true);
+    		Laudo laudo = new Laudo();
     		
     		AlvaraDeConstrucao alvaraC = new AlvaraDeConstrucao();
     		alvaraC.setEmitido(false);
@@ -28,6 +29,7 @@ public class DroolsTest {
     		Imovel imovel = new Imovel(867,true,false,TipoImovel.RESIDENCIAL,70.00,2.0,2.00,10.00,5.00,false);
     		imovel.setArt(art);
     		imovel.setAlvara(alvaraC);
+    		imovel.setLaudo(laudo);
     		
     		Terreno terreno = new Terreno(false,500.00);
     		terreno.setConstrucao(imovel);
@@ -41,25 +43,27 @@ public class DroolsTest {
     		ksession.insert(processo);
     		ksession.fireAllRules();
     		ksession.dispose();
-    		
-    		ksession.dispose();
     		System.out.println("----");
     	
     		//PROCESSO 2
     		Laudo laudo2 = new Laudo(321,true);
-    		Pessoa requerente2 = new Pessoa("FM construtora",1470,false);
+    		Pessoa requerente2 = new Pessoa("FM construtora",1470,true);
     		
     		AlvaraDeConstrucao alvaraC2 = new AlvaraDeConstrucao();
     		alvaraC2.setEmitido(true);
     		
     		CertidaoDeEdificacao certidaoC2 = new CertidaoDeEdificacao();
-    		certidaoC2.setEmitido(false);
+    		certidaoC2.setEmitido(true);
     		
-    		Imovel imovel2 = new Imovel(867,true,true,TipoImovel.RESIDENCIAL,70.00,2.0,2.00,10.00,5.00,false);
+    		Habitese habitese2 = new Habitese();
+    		habitese2.setEmitido(false);
+    		
+    		Imovel imovel2 = new Imovel(867,true,true,TipoImovel.COMERCIAL,70.00,2.0,2.00,10.00,5.00,false);
     	
     		imovel2.setAlvara(alvaraC2);
     		imovel2.setLaudo(laudo2);
     		imovel2.setCertidao(certidaoC2);
+    		imovel2.setHabitese(habitese2);
     		
     		Terreno terreno2 = new Terreno(true,500.00);
     		terreno2.setConstrucao(imovel2);

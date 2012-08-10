@@ -113,27 +113,9 @@ rule "Alvara de construção OK"
  		System.out.println("Valor da DAM a ser paga: "+$p.getTerreno().getConstrucao().getAlvara().getValorDAM());
 end
 
-rule "certidao de edificacao OK"
-	when
-	$p:Processo(terreno.construcao.alvara.emitido == true,terreno.construcao.certidao.emitida == false, terreno.construcao.totalmenteConstruida == true,terreno.construcao.laudo.conferiEndereco == true)
-	then
-	//deferi processo de certidao
-	$p.setSituacao(com.sample.SituacaoProcesso.DEFERIDO);
-	
-	//emitir DAM
- 	$p.getTerreno().getConstrucao().getCertidao().setEmitido(true);
- 	
- 	//adiciona o valor da DAM para emissão de alvará de construção a ser paga
- 	$p.getTerreno().getConstrucao().getCertidao().setValorDAM(26.30);
- 	
- 	System.out.println("Situaçao do processo de número "+$p.getNumeroProcesso()+"(Certidão de edificação)"+": "+$p.getSituacao());
- 	System.out.println("Valor da DAM a ser paga: "+$p.getTerreno().getConstrucao().getCertidao().getValorDAM());
-	
-end
-
 rule "laudo irregular"
 	when
-	$p:Processo(terreno.construcao.laudo.conferiEndereco == false)
+	$p:Processo(terreno.construcao.laudo.conferiEndereco == false,terreno.construcao.alvara.emitido == true,terreno.construcao.certidao.emitido == false )
 	then
 	$p.setSituacao(com.sample.SituacaoProcesso.INDEFERIDO);
 	$p.setJustificativa("Laudo técnico irregular ou incompatível");
@@ -142,3 +124,66 @@ rule "laudo irregular"
 	
 end
 
+rule "certidao de edificacao OK"
+	when
+	$p:Processo(terreno.construcao.alvara.emitido == true,terreno.construcao.certidao.emitido == false, 
+				terreno.construcao.totalmenteConstruida == true,terreno.construcao.laudo.conferiEndereco == true,
+				requerente.cndOk==true)
+	then
+	//deferi processo de certidao
+	$p.setSituacao(com.sample.SituacaoProcesso.DEFERIDO);
+	
+	//emitir DAM
+ 	$p.getTerreno().getConstrucao().getCertidao().setEmitido(true);
+ 	
+ 	//calcular o valor da DAM para emissão de alvará de construção a ser paga
+ 	$p.getTerreno().getConstrucao().getCertidao().setValorDAM(26.30);
+ 	
+ 	System.out.println("Situaçao do processo de número "+$p.getNumeroProcesso()+"(Certidão de edificação)"+": "+$p.getSituacao());
+ 	System.out.println("Valor da DAM a ser paga: "+$p.getTerreno().getConstrucao().getCertidao().getValorDAM());
+	
+end
+
+rule "obra não acabada"
+	when
+	$p:Processo(terreno.construcao.totalmenteConstruida == false,terreno.construcao.alvara.emitido == true,terreno.construcao.certidao.emitido == true)
+	then
+	$p.setSituacao(com.sample.SituacaoProcesso.ARQUIVADO);
+	$p.setJustificativa("Obra não acabada");
+	System.out.println("Situaçao do processo de número "+$p.getNumeroProcesso()+": "+$p.getSituacao());
+	System.out.println("Justificativa: "+$p.getJustificativa());
+end
+
+rule "habitese OK"
+	when
+	$p:Processo(terreno.construcao.tipoImovel == com.sample.TipoImovel.RESIDENCIAL,terreno.construcao.alvara.emitido == true, terreno.construcao.certidao.emitido == true,requerente.cndOk==true)
+	then
+	//deferir
+	$p.setSituacao(com.sample.SituacaoProcesso.DEFERIDO);
+	
+	//emitir DAM para habitese
+	 $p.getTerreno().getConstrucao().getHabitese().setEmitido(true);
+	 
+	//calcular o valor da DAM para emissão de habite-se a ser pago
+ 	$p.getTerreno().getConstrucao().getHabitese().setValorDAM(calculaDAMHabitese($p.getTerreno().getConstrucao()
+ 																					.getMetragemConstrucao()));
+	
+	System.out.println("Situaçao do processo de número "+$p.getNumeroProcesso()+"(Habite-se): "+$p.getSituacao());
+	System.out.println("Valor da DAM a ser paga: "+$p.getTerreno().getConstrucao().getHabitese().getValorDAM());
+end
+
+
+rule "alvara de funcionamento OK"
+	when
+	$p:Processo(terreno.construcao.tipoImovel == com.sample.TipoImovel.COMERCIAL, terreno.construcao.certidao.emitido == true,
+				requerente.cndOk == true)
+	then
+	$p.setSituacao(com.sample.SituacaoProcesso.DEFERIDO);
+	//$p.getTerreno().getConstrucao().getAlvaraFunc().setEmitido(true);
+	$p.getTerreno().getConstrucao().getHabitese().setValorDAM(calculaDAMAlvaraFuncionamento($p.getTerreno().getConstrucao()
+ 																					.getMetragemConstrucao()));
+ 																					
+ 	System.out.println("Situaçao do processo de número "+$p.getNumeroProcesso()+"(Alvará de funcionamento): "+$p.getSituacao());
+	System.out.println("Valor da DAM a ser paga: "+calculaDAMAlvaraFuncionamento($p.getTerreno().getConstrucao().getMetragemConstrucao()));
+	
+end
