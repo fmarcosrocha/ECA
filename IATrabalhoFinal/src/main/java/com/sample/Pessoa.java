@@ -20,13 +20,13 @@ public class Pessoa {
 		this.nome = n;
 	}
 	public int getCpf_cnpj() {
-		return cpf_cnpj;
+		return this.cpf_cnpj;
 	}
 	public void setCpf_cnpj(int cpf_cnpj) {
 		this.cpf_cnpj = cpf_cnpj;
 	}
 	public boolean isCndOk() {
-		return cndOk;
+		return this.cndOk;
 	}
 	public void setCndOk(boolean cndOk) {
 		this.cndOk = cndOk;

@@ -8,8 +8,6 @@ import org.drools.builder.KnowledgeBuilderErrors;
 import org.drools.builder.KnowledgeBuilderFactory;
 import org.drools.builder.ResourceType;
 import org.drools.io.ResourceFactory;
-import org.drools.logger.KnowledgeRuntimeLogger;
-import org.drools.logger.KnowledgeRuntimeLoggerFactory;
 import org.drools.runtime.StatefulKnowledgeSession;
 
 /**
@@ -18,19 +16,16 @@ import org.drools.runtime.StatefulKnowledgeSession;
 @SuppressWarnings("restriction")
 public class DroolsTest {
 
-    public static final void main(String[] args) {
-        try {        	
+    public static void main(String[] args) throws Exception{
+        	
     		Pessoa requerente = new Pessoa("FM construtora",1470,true);
     		
     		Art art = new Art(321,true);
     		
-    		Laudo laudo = new Laudo(321,true);
-    		
     		AlvaraDeConstrucao alvaraC = new AlvaraDeConstrucao();
     		alvaraC.setEmitido(false);
     		
-    		Imovel imovel = new Imovel(867,false,false,TipoImovel.RESIDENCIAL,70.00,3.0,2.00,10.00,5.00,false);
-    		imovel.setLaudo(laudo);
+    		Imovel imovel = new Imovel(867,true,false,TipoImovel.RESIDENCIAL,70.00,2.0,2.00,10.00,5.00,false);
     		imovel.setArt(art);
     		imovel.setAlvara(alvaraC);
     		
@@ -43,14 +38,34 @@ public class DroolsTest {
     		
     		KnowledgeBase kbase = readKnowledgeBase();
     		StatefulKnowledgeSession ksession = kbase.newStatefulKnowledgeSession();
-    		KnowledgeRuntimeLogger logger = KnowledgeRuntimeLoggerFactory.newFileLogger(ksession, "test");
     		ksession.insert(processo);
     		ksession.fireAllRules();
-    		logger.close();
-        	
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
+    		ksession.dispose();
+    	
+    		//PROCESSO 2
+    		Laudo laudo2 = new Laudo(321,true);
+    		Pessoa requerente2 = new Pessoa("FM construtora",1470,true);
+    		
+    		AlvaraDeConstrucao alvaraC2 = new AlvaraDeConstrucao();
+    		alvaraC2.setEmitido(true);
+    		
+    		Imovel imovel2 = new Imovel(867,true,true,TipoImovel.RESIDENCIAL,70.00,2.0,2.00,10.00,5.00,false);
+    	
+    		imovel.setAlvara(alvaraC2);
+    		imovel.setLaudo(laudo2);
+    		
+    		Terreno terreno2 = new Terreno(true,500.00);
+    		terreno2.setConstrucao(imovel2);
+    		
+    		Processo processo2= new Processo(1234);
+    		processo2.setRequerente(requerente2);
+    		processo2.setTerreno(terreno2);
+    		
+    		KnowledgeBase kbase2 = readKnowledgeBase();
+    		StatefulKnowledgeSession ksession2 = kbase2.newStatefulKnowledgeSession();
+    		ksession2.insert(processo2);
+    		ksession2.fireAllRules();
+    		ksession2.dispose();
     }
 
     private static KnowledgeBase readKnowledgeBase() throws Exception {
@@ -59,6 +74,7 @@ public class DroolsTest {
         KnowledgeBuilderErrors errors = kbuilder.getErrors();
         if (errors.size() > 0) {
             for (KnowledgeBuilderError error: errors) {
+            	System.out.println("errei");
                 System.err.println(error);
             }
             throw new IllegalArgumentException("Could not parse knowledge.");
